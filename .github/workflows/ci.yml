@@ -17,6 +17,8 @@ jobs:
       # Installer Composer pour la gestion des dépendances
       - name: Install Composer
         uses: php-actions/composer@v6
+        with:
+          php_version: "8.2"  # Spécifier PHP 8.2
 
       # Exécuter les tests PHPUnit
       - name: Run PHPUnit tests
