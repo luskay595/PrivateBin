@@ -1,36 +1,29 @@
 name: CI
+
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
 jobs:
   build-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       # Vérifier le code du dépôt
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       # Installer Composer pour la gestion des dépendances
       - name: Install Composer
         uses: php-actions/composer@v6
-        with:
-          php_version: "8.2"
-          php_extensions: "pdo mbstring xml curl sqlite3 pdo-sqlite gd"
-      
+
       # Exécuter les tests PHPUnit
       - name: Run PHPUnit tests
         uses: php-actions/phpunit@v3
         with:
-          php_version: "8.2"
+          php_version: "8.2"  # Spécifier PHP 8.2
           php_extensions: "pdo mbstring xml curl sqlite3 pdo-sqlite gd"
-          memory_limit: "256M"
-          configuration: "./phpunit.xml"  # Assurez-vous d'avoir ce fichier de configuration
-          # Vous pouvez ajouter d'autres options si nécessaire
-          bootstrap: "./vendor/autoload.php"
-          testdox: true  # Pour un rapport de test plus lisible
+          # Spécifier la configuration et les autres options pour PHPUnit
+          configuration: "phpunit.xml"  # Si tu as un fichier phpunit.xml personnalisé
+          memory_limit: "256M"  # Limite mémoire si nécessaire
