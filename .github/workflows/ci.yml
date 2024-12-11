@@ -45,13 +45,11 @@ jobs:
           hide_branch_rate: false  # Afficher les informations de taux de branches
           hide_complexity: true  # Masquer les informations de complexité
           indicators: true  # Inclure des indicateurs de santé
-          output: both  # Sortie dans la console et dans un fichier
+          output: file  # Sortie dans un fichier
           thresholds: '50 75'  # Seuils de couverture (50% minimum, 75% maximum)
 
-      # Optionnel: Ajouter un commentaire sur la pull request avec le rapport de couverture
-      - name: Add Coverage PR Comment
-        uses: marocchino/sticky-pull-request-comment@v2
-        if: github.event_name == 'pull_request'
-        with:
-          recreate: true
-          path: code-coverage-results.md
+      # Lire le fichier markdown et l'ajouter à $GITHUB_STEP_SUMMARY
+      - name: Add Code Coverage to GitHub Summary
+        run: |
+          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+        if: success()
