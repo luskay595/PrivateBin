@@ -14,15 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Installer les dépendances via Composer
-      - name: Install Composer dependencies
+      # Installer Composer pour la gestion des dépendances
+      - name: Install Composer
         uses: php-actions/composer@v6
 
-      # Exécuter les tests PHPUnit avec l'action php-actions/phpunit
+      # Exécuter les tests PHPUnit
       - name: Run PHPUnit tests
         uses: php-actions/phpunit@v3
         with:
-          # Spécifie la configuration pour PHPUnit (si nécessaire)
-          configuration: "phpunit.xml"  # Ou un autre fichier de config si nécessaire
-          # Si tu veux utiliser un autre fichier de tests, tu peux aussi définir un autre argument
-          filter: "tst"  # Ou l'argument pour cibler ton répertoire de tests
+          php_extensions: "pdo mbstring xml curl sqlite3 pdo-sqlite gd"
+          # Spécifier la configuration et les autres options pour PHPUnit
+          configuration: "phpunit.xml"  # Si tu as un fichier phpunit.xml personnalisé
+          memory_limit: "256M"  # Limite mémoire si nécessaire
