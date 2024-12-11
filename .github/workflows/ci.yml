@@ -1,0 +1,42 @@
+name: PHP Unit Tests
+
+# Déclencher le workflow sur des événements comme push et pull request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Définir un job appelé "test"
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Vérifier le code du dépôt
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Configurer PHP (par exemple, PHP 8.1)
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'  # Remplacez par la version PHP souhaitée
+          extensions: mbstring, cli, fpm, pdo, sqlite3, pdo_sqlite, curl, xml, gd, zip
+
+      # Installer Composer
+      - name: Install Composer dependencies
+        run: |
+          curl -sS https://getcomposer.org/installer | php
+          php composer.phar install
+
+      # Exécuter les tests PHPUnit
+      - name: Run PHPUnit tests
+        run: ./vendor/bin/phpunit --configuration phpunit.xml
+
+      # Afficher les résultats des tests
+      - name: Display test results
+        if: failure()
+        run: cat /tmp/test_results.xml
