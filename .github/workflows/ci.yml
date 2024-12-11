@@ -25,7 +25,7 @@ jobs:
         uses: php-actions/phpunit@v3
         with:
           php_version: "8.2"  # Spécifier PHP 8.2
-          php_extensions: "pdo mbstring xml curl sqlite3 pdo-sqlite gd"
-          # Spécifier la configuration et les autres options pour PHPUnit
-          configuration: "phpunit.xml"  # Si tu as un fichier phpunit.xml personnalisé
+          version: "9.6.11"  # Spécifier PHPUnit 9.6.11
+          php_extensions: "pdo mbstring xml curl sqlite3 pdo-sqlite gd" # Extensions nécessaires
+          configuration: "phpunit.xml"  # Chemin vers le fichier phpunit.xml
           memory_limit: "256M"  # Limite mémoire si nécessaire
