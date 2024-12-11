@@ -27,7 +27,7 @@ jobs:
         with:
           php_version: "8.2"  # Spécifier PHP 8.2
           version: "9.6.11"  # Spécifier PHPUnit 9.6.11
-          php_extensions: "pdo mbstring xml curl sqlite3 pdo-sqlite gd" # Extensions nécessaires
+          php_extensions: "pdo mbstring xml curl sqlite3 pdo-sqlite gd xdebug" # Extensions nécessaires
           configuration: "phpunit.xml"  # Chemin vers le fichier phpunit.xml
           memory_limit: "256M"  # Limite mémoire si nécessaire
           coverage_text: true  # Générer un rapport de couverture en texte
