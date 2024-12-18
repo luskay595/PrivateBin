@@ -64,16 +64,7 @@ jobs:
           report_file: phpcs_result.txt
           ignore: vendor/
 
-      # Ajouter les résultats de PHPCS au résumé
-      - name: Add PHPCS Results to GitHub Summary
-        run: |
-          echo "### PHPCS Results" >> $GITHUB_STEP_SUMMARY
-          if [ -f phpcs_result.txt ]; then
-            cat phpcs_result.txt >> $GITHUB_STEP_SUMMARY
-          else
-            echo "No PHPCS results found" >> $GITHUB_STEP_SUMMARY
-          fi
-        if: always()
+
 
       # PHP Mess Detector (PHPMD)
       - name: Run PHP Mess Detector
@@ -85,16 +76,6 @@ jobs:
           output_file: phpmd_result.txt
           ignore: vendor/
 
-      # Ajouter les résultats de PHPMD au résumé
-      - name: Add PHPMD Results to GitHub Summary
-        run: |
-          echo "### PHPMD Results" >> $GITHUB_STEP_SUMMARY
-          if [ -f phpmd_result.txt ]; then
-            cat phpmd_result.txt >> $GITHUB_STEP_SUMMARY
-          else
-            echo "No PHPMD results found" >> $GITHUB_STEP_SUMMARY
-          fi
-        if: always()
 
       # PHPStan Static Analysis
       - name: Run PHPStan
@@ -114,14 +95,4 @@ jobs:
               - vendor/*
           " > phpstan.neon
 
-      # Ajouter les résultats de PHPStan au résumé
-      - name: Add PHPStan Results to GitHub Summary
-        run: |
-          echo "### PHPStan Results" >> $GITHUB_STEP_SUMMARY
-          ./vendor/bin/phpstan analyse ./ --level=max --exclude-path=vendor > phpstan_result.txt || true
-          if [ -f phpstan_result.txt ]; then
-            cat phpstan_result.txt >> $GITHUB_STEP_SUMMARY
-          else
-            echo "No PHPStan results found" >> $GITHUB_STEP_SUMMARY
-          fi
-        if: always()
+
