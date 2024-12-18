@@ -68,6 +68,15 @@ jobs:
           error_format: github  # Format d'erreur GitHub
         continue-on-error: true
 
+     #ajouter le resultat de l'analyse de code statique à GitHub en résumé
+      # sans utiliser d'acrion avec la sortie de phpstan
+      - name: Add PHPStan to GitHub Summary
+        run: |
+          phpstan analyse --memory-limit=512M --error-format=github --level=5 ./lib
+          continue-on-error: true
+        if: success()
+
+
 
       - name: Run PHP CodeSniffer
         uses: php-actions/phpcs@v1
