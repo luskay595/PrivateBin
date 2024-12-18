@@ -54,63 +54,38 @@ jobs:
           cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
         if: success()
 
-      # Utiliser l'action PHPCS officielle pour analyser le code avec le standard PSR-12
+     # PHP Code Sniffer (PHPCS)
       - name: Run PHPCS
-        uses: "github/super-linter@v4"
-        with:
-          lang: "php"
-          rules_path: ".github/linters/phpcs/ruleset.xml"  # Si vous avez un fichier de configuration personnalisé
-          enabled_linters: "phpcs"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-        id: phpcs
         run: |
-          ./vendor/bin/phpcs --standard=PSR12 src/ > phpcs_result.txt || true  # Capture output to a file
+          ./vendor/bin/phpcs --standard=PSR12 src/ > phpcs_result.txt || true
 
-      # Ajouter les résultats de PHPCS au résumé
+      # Add PHPCS results to GitHub Summary
       - name: Add PHPCS Results to GitHub Summary
         run: |
           echo "### PHPCS Results" >> $GITHUB_STEP_SUMMARY
           cat phpcs_result.txt >> $GITHUB_STEP_SUMMARY
         if: success()
 
-      # Utiliser l'action PHPMD officielle pour analyser le code
+      # PHP Mess Detector (PHPMD)
       - name: Run PHPMD
-        uses: "php-actions/phpmd@v2"
-        with:
-          directory: "src"
-          ruleset: "cleancode,code-size,controversial,design,naming,unused-code"  # Choisir les règles à appliquer
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-        id: phpmD
         run: |
-          ./vendor/bin/phpmd src text cleancode,code-size,controversial,design,naming,unused-code > phpmD_result.txt || true  # Capture output to a file
+          ./vendor/bin/phpmd src text cleancode,code-size,controversial,design,naming,unused-code > phpmd_result.txt || true
 
-      # Ajouter les résultats de PHPMD au résumé
+      # Add PHPMD results to GitHub Summary
       - name: Add PHPMD Results to GitHub Summary
         run: |
           echo "### PHPMD Results" >> $GITHUB_STEP_SUMMARY
-          cat phpmD_result.txt >> $GITHUB_STEP_SUMMARY
+          cat phpmd_result.txt >> $GITHUB_STEP_SUMMARY
         if: success()
 
-      # Utiliser l'action PHPStan officielle pour analyser le code statiquement
+      # PHPStan Static Analysis
       - name: Run PHPStan
-        uses: "php-actions/phpstan@v2"
-        with:
-          level: "max"  # Niveau de vérification le plus strict
-          directory: "src"  # Le répertoire à analyser
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-        id: phpstan
         run: |
-          ./vendor/bin/phpstan analyse src --level=max > phpstan_result.txt || true  # Capture output to a file
+          ./vendor/bin/phpstan analyse src --level=max > phpstan_result.txt || true
 
-      # Ajouter les résultats de PHPStan au résumé
+      # Add PHPStan results to GitHub Summary
       - name: Add PHPStan Results to GitHub Summary
         run: |
           echo "### PHPStan Results" >> $GITHUB_STEP_SUMMARY
           cat phpstan_result.txt >> $GITHUB_STEP_SUMMARY
-        if: success()
+        if: success()   
