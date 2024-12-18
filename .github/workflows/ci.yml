@@ -70,12 +70,11 @@ jobs:
 
      #ajouter le resultat de l'analyse de code statique à GitHub en résumé
       # sans utiliser d'acrion avec la sortie du step précédent
-      - name: Add PHPStan to GitHub Summary
+      - name: Add PHPStan results to GitHub Summary
         run: |
-          echo "PHPStan Analysis" >> $GITHUB_STEP_SUMMARY
-          cat ./lib/phpstan-github.md >> $GITHUB_STEP_SUMMARY
-        if: always()
-
+          echo "PHPStan results:" >> $GITHUB_STEP_SUMMARY
+          cat phpstan-result.log >> $GITHUB_STEP_SUMMARY
+        if: success()
 
 
       - name: Run PHP CodeSniffer
