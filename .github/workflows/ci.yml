@@ -69,12 +69,12 @@ jobs:
         continue-on-error: true
 
      #ajouter le resultat de l'analyse de code statique à GitHub en résumé
-      # sans utiliser d'acrion avec la sortie de phpstan
+      # sans utiliser d'acrion avec la sortie du step précédent
       - name: Add PHPStan to GitHub Summary
         run: |
-          phpstan analyse --memory-limit=512M --error-format=github --level=5 ./lib
-          continue-on-error: true
-        if: success()
+          echo "PHPStan Analysis" >> $GITHUB_STEP_SUMMARY
+          cat ./lib/phpstan-github.md >> $GITHUB_STEP_SUMMARY
+        if: always()
 
 
 
