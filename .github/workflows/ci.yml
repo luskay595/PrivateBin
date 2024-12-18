@@ -65,6 +65,7 @@ jobs:
           path: ./lib
           level: 5  # Niveau de PHPStan
           memory_limit: "512M"  # Limite mémoire si nécessaire
+          error_format: github  # Format d'erreur GitHub
         continue-on-error: true
 
 
