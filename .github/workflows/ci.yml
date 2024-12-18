@@ -57,7 +57,7 @@ jobs:
       - name: Run PHP Code Sniffer
         uses: php-actions/phpcs@v1
         with:
-          path: src/
+          path: ./
           standard: PSR12
           report: txt
           report_file: phpcs_result.txt
@@ -73,7 +73,7 @@ jobs:
       - name: Run PHP Mess Detector
         uses: php-actions/phpmd@v1
         with:
-          path: src/
+          path: ./
           output: text
           ruleset: cleancode,code-size,controversial,design,naming,unused-code
           output_file: phpmd_result.txt
@@ -89,7 +89,7 @@ jobs:
       - name: Run PHPStan
         uses: php-actions/phpstan@v1
         with:
-          path: src/
+          path: ./
           level: max
           memory_limit: 256M
           error_format: github
