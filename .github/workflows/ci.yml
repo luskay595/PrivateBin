@@ -66,11 +66,13 @@ jobs:
           level: 5  # Niveau de PHPStan
           memory_limit: "512M"  # Limite mémoire si nécessaire
           error_format: github  # Format d'erreur GitHub
+        run: |
+           phpstan analyse ./lib --level=5 --error-format=checkstyle > phpstan-result.log
         continue-on-error: true
 
      #ajouter le resultat de l'analyse de code statique à GitHub en résumé
       # sans utiliser d'acrion avec la sortie du step précédent
-      - name: Add PHPStan results to GitHub Summary
+      - name: Add PHPStan Results to GitHub Summary
         run: |
           echo "PHPStan results:" >> $GITHUB_STEP_SUMMARY
           cat phpstan-result.log >> $GITHUB_STEP_SUMMARY
