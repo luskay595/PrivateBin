@@ -61,8 +61,19 @@ jobs:
       - name: Run PHPStan
         uses: php-actions/phpstan@v2
         with:
-          php_version: "8.2"  # Spécifier PHP 8.2
+          php_version: "8.2"
           path: ./lib
+          level: 5  # Niveau de PHPStan
+
+
+      - name: Display PHPStan result
+        run: |
+          if [ -f phpstan-result.json ]; then
+            cat phpstan-result.json
+          else
+            echo "No PHPStan result found"
+          fi
+
 
       - name: Run PHP CodeSniffer
         uses: php-actions/phpcs@v1
