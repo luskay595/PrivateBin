@@ -53,11 +53,14 @@ jobs:
         run: |
           cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
         if: success()
-
-     # PHP Code Sniffer (PHPCS)
-      - name: Run PHPCS
-        run: |
-          ./vendor/bin/phpcs --standard=PSR12 src/ > phpcs_result.txt || true
+# PHP Code Sniffer (PHPCS)
+      - name: Run PHP Code Sniffer
+        uses: php-actions/phpcs@v1
+        with:
+          path: src/
+          standard: PSR12
+          report: txt
+          report_file: phpcs_result.txt
 
       # Add PHPCS results to GitHub Summary
       - name: Add PHPCS Results to GitHub Summary
@@ -67,9 +70,13 @@ jobs:
         if: success()
 
       # PHP Mess Detector (PHPMD)
-      - name: Run PHPMD
-        run: |
-          ./vendor/bin/phpmd src text cleancode,code-size,controversial,design,naming,unused-code > phpmd_result.txt || true
+      - name: Run PHP Mess Detector
+        uses: php-actions/phpmd@v1
+        with:
+          path: src/
+          output: text
+          ruleset: cleancode,code-size,controversial,design,naming,unused-code
+          output_file: phpmd_result.txt
 
       # Add PHPMD results to GitHub Summary
       - name: Add PHPMD Results to GitHub Summary
@@ -80,12 +87,10 @@ jobs:
 
       # PHPStan Static Analysis
       - name: Run PHPStan
-        run: |
-          ./vendor/bin/phpstan analyse src --level=max > phpstan_result.txt || true
-
-      # Add PHPStan results to GitHub Summary
-      - name: Add PHPStan Results to GitHub Summary
-        run: |
-          echo "### PHPStan Results" >> $GITHUB_STEP_SUMMARY
-          cat phpstan_result.txt >> $GITHUB_STEP_SUMMARY
-        if: success()   
+        uses: php-actions/phpstan@v1
+        with:
+          path: src/
+          level: max
+          memory_limit: 256M
+          error_format: github
+          configuration: phpstan.neon
