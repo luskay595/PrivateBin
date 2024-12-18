@@ -8,6 +8,9 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       # Vérifier le code du dépôt
@@ -64,10 +67,10 @@ jobs:
       - name: Run PHP CodeSniffer
         uses: php-actions/phpcs@v1
         with:
+          standard: 'PSR12'  # Utiliser le standard PSR12
           php_version: "8.2"  # Spécifier PHP 8.2
-          standard: "PSR12"  # Spécifier le standard PSR12
-          report: "summary"  # Rapport en résumé
           path: ./lib
+          
 
       - name: Run PHP Mess Detector
         uses: php-actions/phpmd@v1
