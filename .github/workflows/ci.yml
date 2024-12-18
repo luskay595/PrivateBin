@@ -59,7 +59,7 @@ jobs:
         uses: php-actions/phpstan@v2
         with:
           php_version: "8.2"  # Spécifier PHP 8.2
-          path: /lib
+          path: ./lib
 
       - name: Run PHP CodeSniffer
         uses: php-actions/phpcs@v1
@@ -67,26 +67,16 @@ jobs:
           php_version: "8.2"  # Spécifier PHP 8.2
           standard: "PSR12"  # Spécifier le standard PSR12
           report: "summary"  # Rapport en résumé
-          path: /lib
+          path: ./lib
 
       - name: Run PHP Mess Detector
         uses: php-actions/phpmd@v1
         with:
           php_version: "8.2"  # Spécifier PHP 8.2
-          path: /lib
+          path: ./lib
           ruleset: "cleancode,codesize,controversial,design,naming,unusedcode"
 
-        # Ajouter les résultats de l'analyse de code statique à GitHub en résumé (PHPStan, PHPCS, PHPMD) sans utiliser
-        #d'action prededefined
-      - name: Code Static Analysis Summary Report
-        run: |
-          echo "PHPStan Analysis Summary" >> $GITHUB_STEP_SUMMARY
-          php /usr/local/bin/phpstan analyse --no-progress --error-format=github /lib >> $GITHUB_STEP_SUMMARY
-          echo "PHP CodeSniffer Analysis Summary" >> $GITHUB_STEP_SUMMARY
-          php /usr/local/bin/phpcs --standard=PSR12 --report=summary /lib >> $GITHUB_STEP_SUMMARY
-          echo "PHP Mess Detector Analysis Summary" >> $GITHUB_STEP_SUMMARY
-          php /usr/local/bin/phpmd /lib text cleancode,codesize,controversial,design,naming,unusedcode >> $GITHUB_STEP_SUMMARY
-        if: success()
+
 
 
 
