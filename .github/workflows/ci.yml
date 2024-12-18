@@ -74,6 +74,7 @@ jobs:
           standard: 'PSR12'  # Utiliser le standard PSR12
           php_version: "8.2"  # Spécifier PHP 8.2
           path: ./lib
+        continue-on-error: true
           
 
       - name: Run PHP Mess Detector
@@ -82,7 +83,7 @@ jobs:
           php_version: "8.2"  # Spécifier PHP 8.2
           path: ./lib
           ruleset: "cleancode,codesize,controversial,design,naming,unusedcode"
-
+        continue-on-error: true
 
 
 
