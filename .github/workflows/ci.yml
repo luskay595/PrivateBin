@@ -24,38 +24,38 @@ jobs:
           php_version: "8.2"  # Spécifier PHP 8.2
 
       # Exécuter les tests PHPUnit avec couverture de code en texte
-      #- name: Run PHPUnit tests with coverage (text and cobertura)
-      #  uses: php-actions/phpunit@v3
-      #  env:
-      #    XDEBUG_MODE: coverage
-      #  with:
-      #    php_version: "8.2"  # Spécifier PHP 8.2
-      #    version: "9.6.11"  # Spécifier PHPUnit 9.6.11
-      #    php_extensions: "xdebug pdo mbstring xml curl sqlite3 pdo-sqlite gd"  # Ajouter Xdebug pour le coverage
-      #    configuration: "phpunit.xml"  # Chemin vers le fichier phpunit.xml
-      #    memory_limit: "256M"  # Limite mémoire si nécessaire
-      #    coverage_text: true  # Générer un rapport de couverture en texte
-      #    coverage_cobertura: "coverage/cobertura.xml"  # Le fichier Cobertura pour la couverture
+      - name: Run PHPUnit tests with coverage (text and cobertura)
+        uses: php-actions/phpunit@v3
+        env:
+          XDEBUG_MODE: coverage
+        with:
+          php_version: "8.2"  # Spécifier PHP 8.2
+          version: "9.6.11"  # Spécifier PHPUnit 9.6.11
+          php_extensions: "xdebug pdo mbstring xml curl sqlite3 pdo-sqlite gd"  # Ajouter Xdebug pour le coverage
+          configuration: "phpunit.xml"  # Chemin vers le fichier phpunit.xml
+          memory_limit: "256M"  # Limite mémoire si nécessaire
+          coverage_text: true  # Générer un rapport de couverture en texte
+          coverage_cobertura: "coverage/cobertura.xml"  # Le fichier Cobertura pour la couverture
 
       # Ajouter le rapport de couverture de code à GitHub en résumé
-      #- name: Code Coverage Summary Report
-      #  uses: irongut/CodeCoverageSummary@v1.3.0
-      #  with:
-      #    filename: coverage/cobertura.xml  # Le chemin vers le fichier Cobertura généré
-      #    badge: true  # Inclure un badge dans le résumé
-      #    fail_below_min: true  # Échouer si la couverture est en dessous du seuil minimum
-      #    format: markdown  # Format markdown pour le résumé
-      #    hide_branch_rate: false  # Afficher les informations de taux de branches
-      #    hide_complexity: true  # Masquer les informations de complexité
-      #    indicators: true  # Inclure des indicateurs de santé
-      #    output: file  # Sortie dans un fichier
-      #    thresholds: '50 75'  # Seuils de couverture (50% minimum, 75% maximum)
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/cobertura.xml  # Le chemin vers le fichier Cobertura généré
+          badge: true  # Inclure un badge dans le résumé
+          fail_below_min: true  # Échouer si la couverture est en dessous du seuil minimum
+          format: markdown  # Format markdown pour le résumé
+          hide_branch_rate: false  # Afficher les informations de taux de branches
+          hide_complexity: true  # Masquer les informations de complexité
+          indicators: true  # Inclure des indicateurs de santé
+          output: file  # Sortie dans un fichier
+          thresholds: '50 75'  # Seuils de couverture (50% minimum, 75% maximum)
 
       ## Lire le fichier markdown et l'ajouter à $GITHUB_STEP_SUMMARY
-      #- name: Add Code Coverage to GitHub Summary
-      #  run: |
-      #    cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-      #  if: success()
+      - name: Add Code Coverage to GitHub Summary
+        run: |
+          cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+        if: success()
 
       #ajouter une analyse de code statique avec les actions de php-actions/phpstan phpactions/phpcs et php-actions/phpmd
       - name: Run PHPStan
@@ -66,17 +66,7 @@ jobs:
           level: 5  # Niveau de PHPStan
           memory_limit: "512M"  # Limite mémoire si nécessaire
           error_format: github  # Format d'erreur GitHub
-        run: |
-           phpstan analyse ./lib --level=5 --error-format=checkstyle > phpstan-result.log
         continue-on-error: true
-
-     #ajouter le resultat de l'analyse de code statique à GitHub en résumé
-      # sans utiliser d'acrion avec la sortie du step précédent
-      - name: Add PHPStan Results to GitHub Summary
-        run: |
-          echo "PHPStan results:" >> $GITHUB_STEP_SUMMARY
-          cat phpstan-result.log >> $GITHUB_STEP_SUMMARY
-        if: success()
 
 
       - name: Run PHP CodeSniffer
@@ -95,7 +85,3 @@ jobs:
           path: ./lib
           ruleset: "cleancode,codesize,controversial,design,naming,unusedcode"
         continue-on-error: true
-
-
-
-
